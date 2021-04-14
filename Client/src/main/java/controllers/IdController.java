@@ -7,11 +7,13 @@ import java.util.HashMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Id;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 public class IdController {
     private HashMap<String, Id> allIds;
@@ -36,15 +38,13 @@ public class IdController {
         post.setHeader("Accept", "application/json");
         post.setHeader("Content-type", "application/json");
 
-        System.out.println(jsonString);
-        System.out.println(post);
-
-//        CloseableHttpResponse response = transactionClient.execute(post);
+        CloseableHttpResponse response = transactionClient.execute(post);
+        HttpEntity httpEntity = response.getEntity();
+        String json = EntityUtils.toString(httpEntity);
 //        assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
-//        transactionClient.close();
+        transactionClient.close();
 
-        //NOT DONE WITH THIS METHOD YET; NEED TO
-        return null;
+        return om.readValue(json, Id.class);
     }
 
 
