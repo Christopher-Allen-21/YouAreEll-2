@@ -1,8 +1,10 @@
 package controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import models.Id;
 import org.apache.http.impl.client.CloseableHttpClient;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TransactionController {
@@ -16,7 +18,7 @@ public class TransactionController {
     public List<Id> getIds() {
         return null;
     }
-    public String postId(String idtoRegister, String githubName) {
+    public String postId(String idtoRegister, String githubName) throws IOException {
         Id tid = new Id(idtoRegister, githubName);
         tid = idCtrl.postId(tid);
         return ("Id registered.");
